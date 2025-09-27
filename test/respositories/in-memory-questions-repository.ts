@@ -2,11 +2,9 @@ import type { QuestionsRepository } from "@/domain/forum/application/repositorie
 import type { Question } from "@/domain/forum/enterprise/entities/question.js";
 
 export class InMemoryQuestionsRepository implements QuestionsRepository {
-    public items: Question[] = [];
+    async findById(id: string) {
+        const question = this.items.find(item => item.id.toString() === id);
 
-    async findBySlug(slug: string): Promise<Question | null> {
-        const question = this.items.find(item => item.slug.value === slug);
-        
         if (!question) {
             return null;
         }
@@ -14,7 +12,31 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
         return question;
     }
 
-    async create(question: Question): Promise<void> {
+    public items: Question[] = [];
+
+    async findBySlug(slug: string): Promise<Question | null> {
+        const question = this.items.find(item => item.slug.value === slug);
+
+        if (!question) {
+            return null;
+        }
+
+        return question;
+    }
+
+    async create(question: Question) {
         this.items.push(question);
+    }
+
+    async save(question: Question) {
+        const itemIndex = this.items.findIndex(item => item.id === question.id);
+
+        this.items[itemIndex] = question;
+    }
+
+    async delete(question: Question) {
+        const itemIndex = this.items.findIndex(item => item.id === question.id);
+
+        this.items.splice(itemIndex, 1);
     }
 }
