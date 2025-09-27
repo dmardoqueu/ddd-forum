@@ -1,8 +1,8 @@
+import type { UniqueEntityId } from "@/core/entities/unique-entity-id.js";
 import { Slug } from "./value-objects/slug.js";
-import { Entity } from "../../core/entities/entity.js";
-import type { UniqueEntityId } from "../../core/entities/unique-entity-id.js";
-import type { Optional } from "../../core/types/optional.js";
 import dayjs from "dayjs";
+import { Entity } from "@/core/entities/entity.js";
+import type { Optional } from "@/core/types/optional.js";
 
 interface QuestionProps {
     authorId: UniqueEntityId;
