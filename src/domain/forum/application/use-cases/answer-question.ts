@@ -8,12 +8,16 @@ interface AnswerQuestionRequestUseCaseRequest {
     content: string;
 }
 
+interface AnswerQuestionRequestUseCaseResponse {
+    answer: Answer;
+}
+
 export class AnswerQuestionUseCase {
     constructor(
         private answersRepository: AnswersRepository
     ) {}
 
-    async execute({ instructorId, questionId, content }: AnswerQuestionRequestUseCaseRequest) {
+    async execute({ instructorId, questionId, content }: AnswerQuestionRequestUseCaseRequest): Promise<AnswerQuestionRequestUseCaseResponse> {
         const answer = Answer.create({
             content,
             authorId: new UniqueEntityId(instructorId),
