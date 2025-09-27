@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { Entity } from "@/core/entities/entity.js";
 import type { Optional } from "@/core/types/optional.js";
 
-interface QuestionProps {
+export interface QuestionProps {
     authorId: UniqueEntityId;
     bestAnswerId?: UniqueEntityId | undefined;
     title: string;
@@ -82,7 +82,9 @@ export class Question extends Entity<QuestionProps> {
             ...props,
             slug: props.slug ?? Slug.createFromText(props.title),
             createdAt: new Date(),
-        }, id);
+        },
+            id
+        );
 
         return question;
     }
