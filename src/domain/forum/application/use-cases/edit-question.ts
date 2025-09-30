@@ -1,3 +1,4 @@
+import type { Question } from "../../enterprise/entities/question.js";
 import type { QuestionsRepository } from "../repositories/questions-repository.js";
 
 interface EditQuestionRequestUseCaseRequest {
@@ -8,6 +9,7 @@ interface EditQuestionRequestUseCaseRequest {
 }
 
 interface EditQuestionRequestUseCaseResponse {
+    question: Question
 }
 
 export class EditQuestionUseCase {
@@ -36,6 +38,8 @@ export class EditQuestionUseCase {
 
         await this.questionsRepository.save(question);
 
-        return {};
+        return {
+            question
+        };
     }
 }
