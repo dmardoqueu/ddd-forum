@@ -1,7 +1,7 @@
 import type { AnswersRepository } from "../repositories/answers-repository.js";
 import { AnswerComment } from "../../enterprise/entities/answer-comment.js";
 import { UniqueEntityId } from "@/core/entities/unique-entity-id.js";
-import type { AnswerCommentsRepository } from "../repositories/answer-comment-repository.js";
+import type { AnswerCommentsRepository } from "../repositories/answer-comments-repository.js";
 
 interface CommentOnAnswerRequestUseCaseRequest {
     authorId: string
