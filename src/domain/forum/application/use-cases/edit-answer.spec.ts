@@ -3,6 +3,7 @@ import { InMemoryAnswersRepository } from 'test/respositories/in-memory-answers-
 import { makeAnswer } from 'test/factories/make-answer.js';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id.js';
 import { EditAnswerUseCase } from './edit-answer.js';
+import { NotAllowedError } from './errors/not-allowed-error.js';
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: EditAnswerUseCase
@@ -38,13 +39,14 @@ describe('Delete Answer', () => {
 
         inMemoryAnswersRepository.create(newAnswer)
 
-        expect(() => {
-            return sut.execute({
-                answerId: newAnswer.id.toValue(),
-                authorId: 'author-2',
-                content: 'Conteudo teste',
-            })
-        }).rejects.toBeInstanceOf(Error)
+        const result = await sut.execute({
+            answerId: newAnswer.id.toValue(),
+            authorId: 'author-2',
+            content: 'Conteudo teste',
+        })
+
+        expect(result.isLeft()).toBe(true)
+        expect(result.value).toBeInstanceOf(NotAllowedError)
     })
 });
 
