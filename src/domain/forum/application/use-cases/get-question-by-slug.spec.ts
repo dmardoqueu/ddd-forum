@@ -33,4 +33,3 @@ describe('Get Question By Slug', () => {
 
     })
 });
-
