@@ -1,16 +1,20 @@
 import { expect } from 'vitest';
 import { InMemoryQuestionsRepository } from 'test/respositories/in-memory-questions-repository.js';
+import { InMemoryQuestionAttachmentsRepository } from 'test/respositories/in-memory-question-attachments-repository.js';
 import { makeQuestion } from 'test/factories/make-question.js';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id.js';
 import { DeleteQuestionUseCase } from './delete-question.js';
 import { NotAllowedError } from './errors/not-allowed-error.js';
+import { makeQuestionAttachment } from 'test/factories/make-question-attachment.js';
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let sut: DeleteQuestionUseCase
 
 describe('Delete Question', () => {
     beforeEach(() => {
-        inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
+        inMemoryQuestionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
+        inMemoryQuestionsRepository = new InMemoryQuestionsRepository(inMemoryQuestionAttachmentsRepository)
         sut = new DeleteQuestionUseCase(inMemoryQuestionsRepository)
     })
 
@@ -19,7 +23,20 @@ describe('Delete Question', () => {
             authorId: new UniqueEntityId('author-1')
         }, new UniqueEntityId('question-1'))
 
-        inMemoryQuestionsRepository.create(newQuestion)
+        await inMemoryQuestionsRepository.create(newQuestion)
+
+        inMemoryQuestionAttachmentsRepository.items.push(
+            makeQuestionAttachment({
+                questionId: newQuestion.id,
+                attachmentId: new UniqueEntityId('1')
+            }),
+
+            makeQuestionAttachment({
+                questionId: newQuestion.id,
+                attachmentId: new UniqueEntityId('2')
+            }),
+        )
+
 
         await sut.execute({
             questionId: 'question-1',
@@ -27,6 +44,7 @@ describe('Delete Question', () => {
         })
 
         expect(inMemoryQuestionsRepository.items).toHaveLength(0)
+        expect(inMemoryQuestionAttachmentsRepository.items).toHaveLength(0)
     })
 
     it('should not be able to delete a question from another user', async () => {
@@ -37,9 +55,9 @@ describe('Delete Question', () => {
         inMemoryQuestionsRepository.create(newQuestion)
 
         const result = await sut.execute({
-                questionId: 'question-1',
-                authorId: 'author-2'
-            })
+            questionId: 'question-1',
+            authorId: 'author-2'
+        })
 
         expect(result.isLeft()).toBe(true)
         expect(result.value).toBeInstanceOf(NotAllowedError)
