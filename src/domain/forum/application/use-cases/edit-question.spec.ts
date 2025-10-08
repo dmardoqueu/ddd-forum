@@ -2,7 +2,7 @@ import { InMemoryQuestionsRepository } from 'test/respositories/in-memory-questi
 import { makeQuestion } from 'test/factories/make-question.js';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id.js';
 import { EditQuestionUseCase } from './edit-question.js';
-import { NotAllowedError } from './errors/not-allowed-error.js';
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error.js';
 import { InMemoryQuestionAttachmentsRepository } from 'test/respositories/in-memory-question-attachments-repository.js';
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment.js';
 

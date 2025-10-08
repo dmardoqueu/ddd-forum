@@ -4,7 +4,7 @@ import { InMemoryQuestionAttachmentsRepository } from 'test/respositories/in-mem
 import { makeQuestion } from 'test/factories/make-question.js';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id.js';
 import { DeleteQuestionUseCase } from './delete-question.js';
-import { NotAllowedError } from './errors/not-allowed-error.js';
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error.js';
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment.js';
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository

@@ -4,7 +4,7 @@ import { InMemoryAnswersRepository } from "test/respositories/in-memory-answers-
 import { makeQuestion } from "test/factories/make-question.js"
 import { makeAnswer } from "test/factories/make-answer.js"
 import { UniqueEntityId } from "@/core/entities/unique-entity-id.js"
-import { NotAllowedError } from "./errors/not-allowed-error.js"
+import { NotAllowedError } from "@/core/errors/errors/not-allowed-error.js"
 import { InMemoryAnswerAttachmentsRepository } from "test/respositories/in-memory-answer-attachments-repository.js"
 import { InMemoryQuestionAttachmentsRepository } from "test/respositories/in-memory-question-attachments-repository.js"
 
